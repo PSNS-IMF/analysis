@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Psns.Common.Analysis</id>
+    <authors>PSNS</authors>
+    <owners>109.14</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description></description>
+    <projectUrl>https://github.com/PSNS-IMF/analysis</projectUrl>
+    <licenseUrl>https://github.com/PSNS-IMF/analysis/blob/master/LICENSE.md</licenseUrl>
+    <releaseNotes>
+      ## 1.0.0.0
+      ### Features
+      * Initial release
+    </releaseNotes>
+    <version>$version$</version>
+    <tags>PSNS</tags>
+    <dependencies>
+      <dependency id="Psns.Common.Functional" version="2018.4.26.5" exclude="Build,Analyzers" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Psns.Common.Analysis\bin\$configuration$\Psns.Common.Analysis.*" target="lib\net45" exclude="**\*.dll.config;**\*Tests*;**\*Test*;**\*.deps.json" />
+  </files>
+</package>
