@@ -63,11 +63,8 @@
     <Compile Include="AnomalyTests.fs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Foq">
-      <HintPath>..\packages\Foq.1.7.3\lib\net45\Foq.dll</HintPath>
-    </Reference>
     <Reference Include="FSharp.Core">
-      <HintPath>..\packages\FSharp.Core.4.2.3\lib\net45\FSharp.Core.dll</HintPath>
+      <HintPath>..\packages\FSharp.Core.4.3.4\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="FsUnit.NUnit">
       <HintPath>..\packages\FsUnit.3.1.0\lib\net46\FsUnit.NUnit.dll</HintPath>
@@ -157,7 +154,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Psns.Common.Analysis\Psns.Common.Analysis.fsproj">
       <Name>Psns.Common.Analysis</Name>
-      <Project>{36165cfb-3e5c-445c-b9f5-48a05eaeded0}</Project>
+      <Project>{f5600878-3e40-46d8-92df-3bba71693871}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
