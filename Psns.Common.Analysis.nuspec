@@ -5,7 +5,7 @@
     <authors>PSNS</authors>
     <owners>109.14</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description></description>
+    <description>Contains various analysis algorithms</description>
     <projectUrl>https://github.com/PSNS-IMF/analysis</projectUrl>
     <licenseUrl>https://github.com/PSNS-IMF/analysis/blob/master/LICENSE.md</licenseUrl>
     <releaseNotes>
