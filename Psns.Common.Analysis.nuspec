@@ -20,6 +20,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Psns.Common.Analysis\bin\$configuration$\Psns.Common.Analysis.*" target="lib\net45" exclude="**\*.dll.config;**\*Tests*;**\*Test*;**\*.deps.json" />
+    <file src="Psns.Common.Analysis\bin\$configuration$\Psns.Common.Analysis.*" target="lib\net46" exclude="**\*.dll.config;**\*Tests*;**\*Test*;**\*.deps.json" />
   </files>
 </package>
