@@ -32,7 +32,7 @@ let ``it should get the correct delta from a previous time.`` () =
     |> ex.Some
     |> fun s -> getDeltaFactory s ()
     |> fun delta -> delta.Elapsed.TotalMinutes
-    |> should equal 15
+    |> should be (equalWithin 15.0 16.0)
 
 [<Test>]
 let ``it should get the correct delta from a previous delta time.`` () =
