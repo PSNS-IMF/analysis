@@ -9,6 +9,10 @@
     <projectUrl>https://github.com/PSNS-IMF/analysis</projectUrl>
     <licenseUrl>https://github.com/PSNS-IMF/analysis/blob/master/LICENSE.md</licenseUrl>
     <releaseNotes>
+      ## 1.0.0.1
+      ### Features
+      * Adding thread safety to memoization functions
+
       ## 1.0.0.0
       ### Features
       * Initial release
