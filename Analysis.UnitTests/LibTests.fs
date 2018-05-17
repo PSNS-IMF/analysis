@@ -1,12 +1,12 @@
 ﻿module LibTests
 
-    open NUnit.Framework
+    open System
+    open System.Threading
     open FsUnit
+    open NUnit.Framework
 
     open Psns.Common.Analysis
     open Lib
-    open System
-    open System.Threading
 
     module MemoizePrevTests =
         let startingValue = 0
@@ -95,13 +95,22 @@
         [<Test>]
         let ``it should only call a cached function once or until duration expires when multithreaded.`` () =
             let calls = ref 0
-            let add1 = Func<bool * int, int>(fun isEvenIndex ->
-                fst isEvenIndex |> function | true -> () | _ -> Thread.Sleep(10)
+            let add1 = Func<int, int>(fun index ->
                 Interlocked.Increment(calls) |> ignore
-                (snd isEvenIndex) + 1)
-            let adder = memoWeak add1 (TimeSpan.FromMilliseconds(10.0))
+                index + 1)
+            let adder = memoWeak add1 (TimeSpan.FromMilliseconds(5.0))
 
-            let result = run adder (fun index toAsync -> toAsync ((index % 2 = 0), 0))
+            let asyncController =
+                [1..20]
+                |> Seq.map (fun index ->
+                    async {
+                        let delay = (index % 2 = 0) |> function | true -> 0 | _ -> 20
+                        do! Async.Sleep delay
+                        return adder.Invoke 0
+                    })
+                |> Async.Parallel
 
-            !calls |> should be (lessThan 10)
+            let result = runAndReduce asyncController
+
+            !calls |> should be (greaterThan 1)
             result |> should equal 20
