@@ -9,6 +9,10 @@
     <projectUrl>https://github.com/PSNS-IMF/analysis</projectUrl>
     <licenseUrl>https://github.com/PSNS-IMF/analysis/blob/master/LICENSE.md</licenseUrl>
     <releaseNotes>
+      ## 1.0.0.2
+      ### Features
+      * Adding another memoization function that supports expiration
+
       ## 1.0.0.1
       ### Features
       * Adding thread safety to memoization functions
@@ -24,7 +28,7 @@
         <dependency id="NETStandard.Library" version="2.0.2" exclude="Build,Analyzers" />
       </group>
       <group>
-        <dependency id="Psns.Common.Functional" version="2018.4.26.5" exclude="Build,Analyzers" />
+        <dependency id="Psns.Common.Functional" version="2018.5.16.1" exclude="Build,Analyzers" />
         <dependency id="FSharp.Core" version="4.3.4" exclude="Build,Analyzers" />
         <dependency id="System.ValueTuple" version="4.4.0" exclude="Build,Analyzers" />
       </group>

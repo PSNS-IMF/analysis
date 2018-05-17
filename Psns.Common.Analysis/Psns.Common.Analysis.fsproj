@@ -2,8 +2,8 @@
   
   <PropertyGroup>
     <TargetFrameworks>net45;net451;net46;net461;netstandard1.6</TargetFrameworks>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <FileVersion>1.0.0.2</FileVersion>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NuspecFile>..\Psns.Common.Analysis.nuspec</NuspecFile>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Psns.Common.Functional" Version="2018.4.26.5" />
+    <PackageReference Include="Psns.Common.Functional" Version="2018.5.16.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">

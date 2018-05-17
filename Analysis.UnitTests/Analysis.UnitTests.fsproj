@@ -78,7 +78,7 @@
       <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Psns.Common.Functional">
-      <HintPath>..\packages\Psns.Common.Functional.2018.4.26.5\lib\netstandard1.0\Psns.Common.Functional.dll</HintPath>
+      <HintPath>..\packages\Psns.Common.Functional.2018.5.16.1\lib\netstandard1.0\Psns.Common.Functional.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext">
