@@ -9,6 +9,10 @@
     <projectUrl>https://github.com/PSNS-IMF/analysis</projectUrl>
     <licenseUrl>https://github.com/PSNS-IMF/analysis/blob/master/LICENSE.md</licenseUrl>
     <releaseNotes>
+      ## 1.0.0.3
+      ### Features
+      * Adding function memoWeakKeyed that takes another function to generate the cache key.
+
       ## 1.0.0.2
       ### Features
       * Adding another memoization function that supports expiration
