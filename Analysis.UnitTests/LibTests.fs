@@ -98,19 +98,23 @@
             let add1 = Func<int, int>(fun index ->
                 Interlocked.Increment(calls) |> ignore
                 index + 1)
-            let adder = memoWeak add1 (TimeSpan.FromMilliseconds(5.0))
+            let adder = memoWeak add1 (TimeSpan.FromMilliseconds(100.0))
 
             let asyncController =
                 [1..20]
                 |> Seq.map (fun index ->
                     async {
-                        let delay = (index % 2 = 0) |> function | true -> 0 | _ -> 20
+                        let delay = (index % 2 = 0) |> function | true -> 0 | _ -> 150
                         do! Async.Sleep delay
                         return adder.Invoke 0
                     })
                 |> Async.Parallel
 
-            let result = runAndReduce asyncController
+            let result =
+                asyncController
+                |> Async.RunSynchronously
+                |> Seq.reduce (fun a b -> (fst a) + (fst b), (snd a) + (snd b))
 
             !calls |> should be (greaterThan 1)
-            result |> should equal 20
+            fst result |> should equal 20
+            snd result |> should equal 110

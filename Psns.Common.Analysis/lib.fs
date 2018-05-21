@@ -3,7 +3,6 @@
 module Lib =
     open System
     open System.Collections.Concurrent
-    open Psns.Common.Functional
 
     /// <summary>Composes a function whose result is stored so that it is only executed once.</summary>
     /// <param name="f">A function whose result will be stored after the first execution.</param>
@@ -12,6 +11,11 @@ module Lib =
         let store = new ConcurrentDictionary<_, _>()
         Func<'a, 'b>(fun x -> store.GetOrAdd(Some x, lazy (f.Invoke x)).Force())
 
+    let private fst (a, _, _) = a
+    let private snd (_, b, _) = b
+    let private thd (_, _, c) = c
+    let private map (a, b, c) f = a, b, f c 
+
     /// <summary>Composes a function whose result is stored so that it is only executed once
     /// or until <c>duration</c> has elapsed.</summary>
     /// <param name="f">A function whose result will be stored after the first execution.</param>
@@ -19,23 +23,28 @@ module Lib =
     /// the stored result for <c>f</c>.</param>
     /// <param name="duration">A <seealso cref="System.TimeSpan" /> that will determine how long
     /// the stored value of <c>f</c> will be cached until it is re-evaluated.</param>
+    /// <returns>A <c>tuple</c> of the result of <c>f</c> and an <see cref="int" /> 
+    /// indicating how many times <c>f</c> has been called.</returns>
     /// <remarks>Threadsafe</remarks>
     let memoWeakKeyed (f: Func<'a, 'b>) (keyGen: Func<'a, 'c>) duration =
         let store = new ConcurrentDictionary<_, _>()
-        let update x (current: Lazy<'b> * DateTime) =
+        let update x (current: Lazy<'b> * DateTime * int) =
             let now = DateTime.Now
             let diff = now.Subtract (snd current)
-            (diff > duration) |> function | true -> lazy (f.Invoke x), now | _ -> current
-        Func<'a, 'b>(fun x ->
+            (diff > duration) |> function | true -> lazy (f.Invoke x), now, 1 | _ -> map current (fun i -> i + 1)
+        Func<'a, 'b * int>(fun x ->
             let key = Some (keyGen.Invoke x)
-            let newVal = (lazy (f.Invoke x), DateTime.Now)
-            (fst (store.AddOrUpdate(key, newVal, (fun _ v -> update x v)))).Force())
+            let newVal = (lazy (f.Invoke x), DateTime.Now, 1)
+            let res = store.AddOrUpdate(key, newVal, (fun _ v -> update x v))
+            ((fst res).Force(), thd res))
 
     /// <summary>Composes a function whose result is stored so that it is only executed once
     /// or until <c>duration</c> has elapsed.</summary>
     /// <param name="f">A function whose result will be stored after the first execution.</param>
     /// <param name="duration">A <seealso cref="System.TimeSpan" /> that will determine how long
     /// the stored value of <c>f</c> will be cached until it is re-evaluated.</param>
+    /// <returns>A <c>tuple</c> of the result of <c>f</c> and an <see cref="int" /> 
+    /// indicating how many times <c>f</c> has been called.</returns>
     /// <remarks>Threadsafe</remarks>
     let memoWeak (f: Func<'a, 'b>) duration =
         memoWeakKeyed f (Func<'a, _>(fun a -> a)) duration
