@@ -50,19 +50,36 @@ module Lib =
         memoWeakKeyed f (Func<'a, _>(fun a -> a)) duration
 
     /// <summary>Composes a function that is called with the result of the previous call.</summary>
+    /// <param name="f"></param>
+    /// <param name="starting"></param>
+    /// <returns>Item one of the returned tuple calls <paramref name="f" />
+    /// and stores its result for the next call. Item two is just a reader function that returns 
+    /// the previous result without calling <paramref name="f" />.</returns>
+    let memoPrevWithReader (f: Func<'a, 'a>) starting =
+        let store = MailboxProcessor.Start(fun inbox ->
+            let rec messageLoop oldState = async {
+                let! (msg, channel: AsyncReplyChannel<'a>) = inbox.Receive()
+                let state = msg(oldState)
+
+                channel.Reply(state)
+
+                return! messageLoop state
+                }
+            messageLoop(starting))
+        
+        let composeGetNext getF =
+            Func<_>(fun () -> store.PostAndReply(fun channel -> getF, channel))
+
+        Func<_>(
+            fun () -> composeGetNext f.Invoke, composeGetNext (fun a -> a))
+
+    /// <summary>Composes a function that is called with the result of the previous call.</summary>
     /// <param name="func"></param>
     /// <remarks>Threadsafe</remarks>
     let memoizePrev (func: Func<'a, 'a>) starting =
-        let cached = ref starting
-        let guard = new obj()
-        Func<'a>(
-            fun () ->
-                lock(guard)(fun () ->
-                    let r = func.Invoke !cached
-                    cached := r
-                    r
-            )
-        )
+        memoPrevWithReader func starting
+        |> fun func -> func.Invoke()
+        |> Operators.fst
 
     /// <summary>Composes a function that is called with the result of the previous
     /// call and an additional parameter. The return value of <paramref name="func" /> 

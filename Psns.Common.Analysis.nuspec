@@ -9,6 +9,10 @@
     <projectUrl>https://github.com/PSNS-IMF/analysis</projectUrl>
     <licenseUrl>https://github.com/PSNS-IMF/analysis/blob/master/LICENSE.md</licenseUrl>
     <releaseNotes>
+      ## 1.0.0.5
+      ### Features
+      * Adding a version of memoPrev that also returns a reader function.
+
       ## 1.0.0.4
       ### Features
       * Include number of times memo'd function was called in result.

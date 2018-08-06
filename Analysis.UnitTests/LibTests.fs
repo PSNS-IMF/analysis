@@ -55,6 +55,22 @@
 
             run asyncAdder |> should equal 190
 
+        [<Test>]
+        let ``it should a reader that returns the result of the previous function call.`` () =
+            let adder =
+                memoPrevWithReader (Func<int, int>(fun prev -> prev + 1)) startingValue
+                |> fun getWriterReader -> getWriterReader.Invoke()
+            let adderWriter = adder |> fst |> fun writer -> async { return writer.Invoke() }
+            let adderReader = adder |> snd |> fun reader -> async { return reader.Invoke() }
+
+            let result =
+                [adderWriter] // write once
+                |> Seq.append (Seq.replicate 20 adderReader) // read 20 times
+                |> Async.Parallel
+                |> runAndReduce
+
+            result |> should equal 1
+
     module MemoTests =
         
         let adderFactory calls = memo (Func<int, int>(fun i ->
