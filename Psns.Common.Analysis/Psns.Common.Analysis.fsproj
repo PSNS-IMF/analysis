@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Psns.Common.Functional" Version="2018.5.16.1" />
+    <PackageReference Include="Psns.Common.Functional" Version="2019.3.29.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
